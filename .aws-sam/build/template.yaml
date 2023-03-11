@@ -1,0 +1,51 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  MsgFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Timeout: 10
+      Handler: main
+      Runtime: go1.x
+      Policies:
+      - AWSLambdaExecute
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: MsgTable
+      Events:
+        GetMsg:
+          Type: Api
+          Properties:
+            Path: /msg/{id}
+            Method: GET
+        GetMsgs:
+          Type: Api
+          Properties:
+            Path: /msg
+            Method: GET
+        PutMsg:
+          Type: Api
+          Properties:
+            Path: /msg
+            Method: POST
+        DeleteMsg:
+          Type: Api
+          Properties:
+            Path: /msg/{id}
+            Method: DELETE
+      CodeUri: MsgFunction
+    Metadata:
+      SamResourceId: MsgFunction
+  MsgTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: Msgs
+      AttributeDefinitions:
+      - AttributeName: id
+        AttributeType: S
+      KeySchema:
+      - AttributeName: id
+        KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 2
+        WriteCapacityUnits: 2
