@@ -46,7 +46,12 @@ func processGet(ctx context.Context, req events.APIGatewayProxyRequest) (events.
 func clientError(status int) (events.APIGatewayProxyResponse, error) {
 
 	return events.APIGatewayProxyResponse{
-		Body:       http.StatusText(status),
+		Body: http.StatusText(status),
+		Headers: map[string]string{
+			"Access-Control-Allow-Origin":  "*",
+			"Access-Control-Allow-Methods": "DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT",
+			"Access-Control-Allow-Headers": "X-Amz-Date,X-Api-Key,X-Amz-Security-Token,X-Requested-With,X-Auth-Token,Referer,User-Agent,Origin,Content-Type,Authorization,Accept,Access-Control-Allow-Methods,Access-Control-Allow-Origin,Access-Control-Allow-Headers",
+		},
 		StatusCode: status,
 	}, nil
 }
@@ -80,7 +85,12 @@ func processGetMsg(ctx context.Context, id string) (events.APIGatewayProxyRespon
 
 	return events.APIGatewayProxyResponse{
 		StatusCode: http.StatusOK,
-		Body:       string(json),
+		Headers: map[string]string{
+			"Access-Control-Allow-Origin":  "*",
+			"Access-Control-Allow-Methods": "DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT",
+			"Access-Control-Allow-Headers": "X-Amz-Date,X-Api-Key,X-Amz-Security-Token,X-Requested-With,X-Auth-Token,Referer,User-Agent,Origin,Content-Type,Authorization,Accept,Access-Control-Allow-Methods,Access-Control-Allow-Origin,Access-Control-Allow-Headers",
+		},
+		Body: string(json),
 	}, nil
 }
 
@@ -100,7 +110,12 @@ func processGetMsgs(ctx context.Context) (events.APIGatewayProxyResponse, error)
 
 	return events.APIGatewayProxyResponse{
 		StatusCode: http.StatusOK,
-		Body:       string(json),
+		Headers: map[string]string{
+			"Access-Control-Allow-Origin":  "*",
+			"Access-Control-Allow-Methods": "DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT",
+			"Access-Control-Allow-Headers": "X-Amz-Date,X-Api-Key,X-Amz-Security-Token,X-Requested-With,X-Auth-Token,Referer,User-Agent,Origin,Content-Type,Authorization,Accept,Access-Control-Allow-Methods,Access-Control-Allow-Origin,Access-Control-Allow-Headers",
+		},
+		Body: string(json),
 	}, nil
 }
 
@@ -134,7 +149,10 @@ func processPost(ctx context.Context, req events.APIGatewayProxyRequest) (events
 		StatusCode: http.StatusCreated,
 		Body:       string(json),
 		Headers: map[string]string{
-			"Location": fmt.Sprintf("/todo/%s", res.Id),
+			"Location":                     fmt.Sprintf("/todo/%s", res.Id),
+			"Access-Control-Allow-Origin":  "*",
+			"Access-Control-Allow-Methods": "DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT",
+			"Access-Control-Allow-Headers": "X-Amz-Date,X-Api-Key,X-Amz-Security-Token,X-Requested-With,X-Auth-Token,Referer,User-Agent,Origin,Content-Type,Authorization,Accept,Access-Control-Allow-Methods,Access-Control-Allow-Origin,Access-Control-Allow-Headers",
 		},
 	}, nil
 }
@@ -163,6 +181,11 @@ func processDelete(ctx context.Context, req events.APIGatewayProxyRequest) (even
 
 	return events.APIGatewayProxyResponse{
 		StatusCode: http.StatusOK,
-		Body:       string(json),
+		Headers: map[string]string{
+			"Access-Control-Allow-Origin":  "*",
+			"Access-Control-Allow-Methods": "DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT",
+			"Access-Control-Allow-Headers": "X-Amz-Date,X-Api-Key,X-Amz-Security-Token,X-Requested-With,X-Auth-Token,Referer,User-Agent,Origin,Content-Type,Authorization,Accept,Access-Control-Allow-Methods,Access-Control-Allow-Origin,Access-Control-Allow-Headers",
+		},
+		Body: string(json),
 	}, nil
 }
